@@ -15,7 +15,7 @@ const NO_PHRASES = [
 function App() {
   const [noClicks, setNoClicks] = useState(0);
   const [isValentine, setIsValentine] = useState(false);
-  const yesButtonSize = (noClicks * 20) + 16;
+  const yesButtonSize = noClicks * 20 + 16;
 
   const firstImg = "https://media.tenor.com/VIChDQ6ejRQAAAAj/jumping-bear-hearts-no-png.gif";
   const secondImg = "https://media.tenor.com/f1xnRxTRxLAAAAAj/bears-with-kisses-bg.gif";
@@ -40,59 +40,59 @@ function App() {
         textAlign: "center",
       }}
     >
-      {!isValentine
-        ? (
-          <>
-            <img src={firstImg} />
-            <h1>Will you be my Valentine? 💘</h1>
-            <div>
-              <button
-                onClick={handleYes}
-                style={{
-                  fontSize: `${yesButtonSize}px`,
-                  margin: "10px",
-                  padding: "10px 20px",
-                  backgroundColor: "green",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                }}
-              >
-                Yes
-              </button>
-              <button
-                onClick={handleNo}
-                style={{
-                  fontSize: "16px",
-                  margin: "10px",
-                  padding: "10px 20px",
-                  backgroundColor: "red",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                }}
-              >
-                {noClicks === 0 ? "No" : NO_PHRASES[Math.min(noClicks - 1, NO_PHRASES.length - 1)]}
-              </button>
-            </div>
-          </>
-        )
-        : (
-          <>
-            <img src={secondImg} />
-            <div
+      {!isValentine ? (
+        <>
+          <img src={firstImg} />
+          <h1>Will you be my Valentine? 💘</h1>
+          <div>
+            <button
+              onClick={handleYes}
               style={{
-                fontSize: "48px",
-                color: "pink",
-                fontWeight: "bold",
+                fontSize: `${yesButtonSize}px`,
+                margin: "10px",
+                padding: "10px 20px",
+                backgroundColor: "green",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
               }}
             >
-              Yay!!! 💖🎉
-            </div>
-          </>
-        )}
+              Yes
+            </button>
+            <button
+              onClick={handleNo}
+              style={{
+                fontSize: "16px",
+                margin: "10px",
+                padding: "10px 20px",
+                backgroundColor: "red",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              {noClicks === 0
+                ? "No"
+                : NO_PHRASES[Math.min(noClicks - 1, NO_PHRASES.length - 1)]}
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <img src={secondImg} />
+          <div
+            style={{
+              fontSize: "48px",
+              color: "pink",
+              fontWeight: "bold",
+            }}
+          >
+            Yay!!! 💖🎉
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -100,9 +100,12 @@ function App() {
 function client() {
   createRoot(document.getElementById("root")).render(<App />);
 }
-if (typeof document !== "undefined") { client(); }
 
-export default async function server(request: Request): Promise<Response> {
+if (typeof document !== "undefined") {
+  client();
+}
+
+export default async function server(request) {
   return new Response(
     `
     <html>
@@ -122,6 +125,6 @@ export default async function server(request: Request): Promise<Response> {
   `,
     {
       headers: { "content-type": "text/html" },
-    },
+    }
   );
 }
